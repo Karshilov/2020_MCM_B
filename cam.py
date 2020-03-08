@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import random as rnd
 
-SAND_R = 0.00035 * 4
+SAND_R = 0.00115 * 4
 A_LENGTH = 102
 B_LENGTH = 88
 H_HEIGHT = 82
@@ -124,7 +124,7 @@ def recheck():
     for i in range(A_LENGTH):
         for j in range(B_LENGTH):
             for k in range(H_HEIGHT):
-                if getForce(i, j, k, 0) < 1 * (B_LENGTH - j) / B_LENGTH + 0.8 * round(pow(EXPEND_RATE, header[i, k]), 3):
+                if getForce(i, j, k, 0) < 2 * (B_LENGTH - j) / B_LENGTH + 0.8 * round(pow(EXPEND_RATE, header[i, k]), 3):
                     #print (getForce(i, j, k, 0))
                     if legal(i, j, k) and k <= WAVE_HEIGHT + 5:
                             model[i, j, k] = True
@@ -181,9 +181,9 @@ for i in range(A_LENGTH):
         outy.append(j)
         outz.append(tk)
 print (len(plotx))
-np.savetxt("ox.txt", outx)
-np.savetxt("oy.txt", outy)
-np.savetxt("oz.txt", outz)
+np.savetxt("smtx.txt", outx)
+np.savetxt("smty.txt", outy)
+np.savetxt("smtz.txt", outz)
 plt.figure()
 plt.plot(plotx, ploty)
 plt.show()

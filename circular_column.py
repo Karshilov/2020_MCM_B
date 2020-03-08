@@ -3,9 +3,9 @@ import numpy as np
 import random as rnd
 
 SAND_R = 0.00035 * 4
-A_LENGTH = 51
-B_LENGTH = 51
-H_HEIGHT = 51
+A_LENGTH = 50
+B_LENGTH = 50
+H_HEIGHT = 64
 DECREASE_RATE = 0.899
 EXPEND_RATE = 0.988
 TOTAL = 0.
@@ -20,8 +20,14 @@ BASE_F3 = 64 * (0.33 * 3.1415 * 10 * SAND_R * SAND_R * (3 * 2.713 * SAND_R * 0.5
 BASE_F = 64 * 0.33 * 3.1415 * 10 * SAND_R * SAND_R * (3 * 2 * SAND_R * 0.5 + 2 * SAND_R * 0.353 - 2 * SAND_R) + 1.414 * 3.1415 * SAND_R
 
 '''
-Todo 利用三维线性规划剔除形状
+Done 利用三维线性规划剔除形状
 '''
+
+def calc(x, y, z):
+    if ((x - 25) * (x - 25) + (y - 25) * (y - 25) <= 625):
+        return True
+    else : return False
+
 print (BASE_F3)
 
 def legal(i, j, k):
@@ -144,13 +150,15 @@ def recheck():
 for i in range(A_LENGTH):
     for j in range(B_LENGTH):
         for k in range(H_HEIGHT):
-            TOTAL = TOTAL + 1
+            if calc(i, j, k) == False: model[i, j, k] = True
+            else : TOTAL = TOTAL + 1
+            #TOTAL = TOTAL + 1
 
 ratio = recheck() / TOTAL
 i = 1
 ploty = [1, ratio]
 plotx = [0, i]
-while ratio > 0.75:
+while ratio > 0.75 :
     i = i + 1
     ratio = recheck() / TOTAL
     plotx.append(i)
@@ -171,10 +179,19 @@ for i in range(A_LENGTH):
         outy.append(j)
         outz.append(tk)
 print (len(plotx))
-np.savetxt("cbx.txt", outx)
-np.savetxt("cby.txt", outy)
-np.savetxt("cbz.txt", outz)
+np.savetxt("ccnx.txt", outx)
+np.savetxt("ccny.txt", outy)
+np.savetxt("ccnz.txt", outz)
 plt.figure()
 plt.plot(plotx, ploty)
 plt.show()
-# 25
+# 50 50 64 6 times
+# 25 25 32 3 times
+# 75 75 96 26 times
+# 60 60 77 12 times
+# 40 40 52 5 times
+
+# 50 50 64 6 times
+# 40 40 100 13 times
+# 80 80 25 3 times
+# 20 20 400 35 times
